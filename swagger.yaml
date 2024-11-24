@@ -1,0 +1,118 @@
+openapi: 3.0.0
+info:
+  title: Notes API
+  version: 1.0.0
+  description: API для роботи з нотатками
+servers:
+  - url: http://localhost:3000
+    description: Local server
+paths:
+  /notes:
+    get:
+      summary: Отримати всі нотатки
+      responses:
+        200:
+          description: Успішно отримано список нотаток
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      description: Ім'я нотатки
+                    text:
+                      type: string
+                      description: Текст нотатки
+  /notes/{noteName}:
+    get:
+      summary: Отримати конкретну нотатку за її ім'ям
+      parameters:
+        - in: path
+          name: noteName
+          required: true
+          schema:
+            type: string
+          description: Ім'я нотатки
+      responses:
+        200:
+          description: Успішно отримано нотатку
+          content:
+            text/plain:
+              schema:
+                type: string
+                description: Текст нотатки
+        404:
+          description: Нотатку не знайдено
+    put:
+      summary: Оновити існуючу нотатку
+      parameters:
+        - in: path
+          name: note_name
+          required: true
+          schema:
+            type: string
+          description: Ім'я нотатки
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                note:
+                  type: string
+                  description: Новий текст нотатки
+      responses:
+        200:
+          description: Нотатку оновлено
+        404:
+          description: Нотатку не знайдено
+    delete:
+      summary: Видалити нотатку
+      parameters:
+        - in: path
+          name: noteName
+          required: true
+          schema:
+            type: string
+          description: Ім'я нотатки
+      responses:
+        200:
+          description: Нотатку видалено
+        404:
+          description: Нотатку не знайдено
+  /write:
+    post:
+      summary: Створити нову нотатку
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                note_name:
+                  type: string
+                  description: Ім'я нової нотатки
+                note:
+                  type: string
+                  description: Текст нової нотатки
+      responses:
+        201:
+          description: Нотатку створено
+        400:
+          description: Нотатка вже існує
+  /UploadForm.html:
+    get:
+      summary: Отримати форму завантаження
+      responses:
+        200:
+          description: HTML-сторінка форми
+          content:
+            text/html:
+              schema:
+                type: string
+                description: HTML-код форми

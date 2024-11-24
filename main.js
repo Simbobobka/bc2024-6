@@ -5,6 +5,14 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
+// Завантаження swagger.yaml
+const swaggerDocument = YAML.load(path.join(__dirname, 'swagger.yaml'));
+
+// Налаштування Swagger UI
+
+
 const program = new Command();
 const getNotePath = (noteName) => path.join(cache, `${noteName}.txt`);
 
@@ -19,6 +27,10 @@ const options = program.opts();
 
 const app = express();
 const { host, port, cache } = options;
+
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+console.log('Swagger документація доступна за адресою: http://localhost:3000/docs');
 
 app.use(bodyParser.json());
 const upload = multer();
