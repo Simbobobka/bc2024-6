@@ -59,17 +59,20 @@ app.get('/notes/:noteName', (req, res) => {
     res.send(noteContent);
 });
 
-app.put('/notes/:note_name', upload.none(), (req, res) => {
+// Add a middleware to parse plain text
+app.use(bodyParser.text({ type: 'text/plain' }));
+
+app.put('/notes/:note_name', (req, res) => {
     const noteName = req.params.note_name;
-    const { note } = req.body;
-  
+    const noteContent = req.body; // Plain text content
+
     if (!readNote(noteName)) {
-      return res.status(404).send('Note not found');
+        return res.status(404).send('Note not found');
     }
-  
-    writeNote(noteName, note);
+
+    writeNote(noteName, noteContent); // Save plain text content
     res.status(200).send('Note updated');
-  });
+});
 
 app.delete('/notes/:noteName', (req, res) => {
     const { noteName } = req.params;

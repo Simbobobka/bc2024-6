@@ -9,4 +9,4 @@ services:
       - 9229:9229
     volumes:
       - ./:/usr/src/app
-      - ./notes:/usr/src/app/notes
+      - ./notes:/usr/src/app/notes      

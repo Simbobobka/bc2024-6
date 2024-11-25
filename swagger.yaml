@@ -58,18 +58,16 @@ paths:
       requestBody:
         required: true
         content:
-          application/json:
+          text/plain:
             schema:
-              type: object
-              properties:
-                note:
-                  type: string
-                  description: Новий текст нотатки
+              type: string
+              description: Новий текст нотатки
       responses:
         200:
           description: Нотатку оновлено
         404:
           description: Нотатку не знайдено
+
     delete:
       summary: Видалити нотатку
       parameters:
